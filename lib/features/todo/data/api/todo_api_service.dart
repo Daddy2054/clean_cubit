@@ -33,9 +33,9 @@ class TodoApiService with UriMixin implements IToDoApiService {
   }
 
   @override
-  Future<Response> getToDos(int id) async {
+  Future<Response> getToDos(int userId) async {
     try {
-      final url = getUri('/api/v1/todo/getToDos/$id');
+      final url = getUri('/api/v1/todo/getToDos/$userId');
 
       return await http.get(
         url,
