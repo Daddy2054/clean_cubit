@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/core/route/go_router_provider.dart';
+import 'package:todo_app/core/service_locator.dart';
 
 import 'core/theme/color_scheme.dart';
 
@@ -10,7 +11,7 @@ class MainWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final route = GoRouterProvider();
+    final route = getIt.get<GoRouterProvider>();
 
     return MaterialApp.router(
       title: 'Todo App',
