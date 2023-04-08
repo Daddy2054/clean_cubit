@@ -4,14 +4,14 @@ import 'package:todo_app/features/todo/application/itodo_service.dart';
 import 'package:todo_app/features/todo/presentation/state/todo_state.dart';
 
 class ToDoController extends Cubit<ToDoState> {
-  final IToDoService _iToDoService;
+  final IToDoService _toDoService;
 
-  ToDoController(this._iToDoService) : super(const ToDoState());
+  ToDoController(this._toDoService): super(const ToDoState());
 
   void getToDos() async {
     try {
       emit(state.copyWith(isLoading: true));
-      final result = await _iToDoService.getToDos(
+      final result = await _toDoService.getToDos(
         1,
       );
       emit(state.copyWith(
@@ -34,7 +34,7 @@ class ToDoController extends Cubit<ToDoState> {
   void getToDo(int id) async {
     try {
       emit(state.copyWith(isLoading: true));
-      final result = await _iToDoService.getToDo(
+      final result = await _toDoService.getToDo(
         id,
       );
       final formData = {
@@ -64,7 +64,7 @@ class ToDoController extends Cubit<ToDoState> {
   void updateToDo() async {
     try {
       emit(state.copyWith(isLoading: true));
-      final result = await _iToDoService.updateToDo(
+      final result = await _toDoService.updateToDo(
         state.formData,
       );
 
@@ -105,7 +105,7 @@ class ToDoController extends Cubit<ToDoState> {
         'id': id.toString(),
         'user_id': userId.toString(),
       };
-      final result = await _iToDoService.deleteToDo(
+      final result = await _toDoService.deleteToDo(
         queries,
       );
 

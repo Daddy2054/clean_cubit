@@ -29,7 +29,7 @@ class _ToDoAddScreenState extends State<ToDoAddScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AddTodo'),
+        title: const Text('Add Todo'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
