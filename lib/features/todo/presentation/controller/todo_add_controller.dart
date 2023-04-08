@@ -4,14 +4,15 @@ import 'package:todo_app/features/todo/application/itodo_service.dart';
 import 'package:todo_app/features/todo/presentation/state/todo_add_state.dart';
 
 class ToDoAddController extends Cubit<ToDoAddState> {
-  final IToDoService _iToDoService;
+   final IToDoService _toDoService;
 
-  ToDoAddController(this._iToDoService) : super(const ToDoAddState());
+  ToDoAddController(this._toDoService): super(const ToDoAddState());
 
   void addToDo() async {
     try {
       emit(state.copyWith(isLoading: true));
-      final result = await _iToDoService.addToDo(
+      setFormData(key: 'user_id', value: '1');
+      final result = await _toDoService.addToDo(
         state.formData,
       );
 

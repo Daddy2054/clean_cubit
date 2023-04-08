@@ -1,5 +1,6 @@
 import 'package:todo_app/core/exception/failure.dart';
 import 'package:todo_app/core/extension/date_formatter.dart';
+import 'package:todo_app/features/todo/application/itodo_service.dart';
 import 'package:todo_app/features/todo/data/dto/todo_response.dart';
 import 'package:todo_app/features/todo/data/dto/todos_response.dart';
 import 'package:todo_app/features/todo/data/repository/itodo_repository.dart';
@@ -7,17 +8,16 @@ import 'package:todo_app/features/todo/domain/model/todo_item.dart';
 import 'package:todo_app/features/todo/domain/model/todo_model.dart';
 import 'package:todo_app/features/todo/domain/model/todo_page.dart';
 
-import 'itodo_service.dart';
-
 class ToDoService implements IToDoService {
-  final IToDoRepository _iToDoRepository;
+  final IToDoRepository _toDoRepository;
 
-  ToDoService(this._iToDoRepository);
+  ToDoService(this._toDoRepository);
 
   @override
   Future<ToDoItem> addToDo(Map<String, dynamic> body) async {
     try {
-      final response = await _iToDoRepository.addToDo(body);
+  //    print(body);
+      final response = await _toDoRepository.addToDo(body);
       final result = _mapToDoItem(response);
       return result;
     } on Failure catch (_) {
@@ -28,7 +28,7 @@ class ToDoService implements IToDoService {
   @override
   Future<bool> deleteToDo(Map<String, dynamic> queries) async {
     try {
-      final response = await _iToDoRepository.deleteToDo(queries);
+      final response = await _toDoRepository.deleteToDo(queries);
       return response.deleted;
     } on Failure catch (_) {
       rethrow;
@@ -38,7 +38,7 @@ class ToDoService implements IToDoService {
   @override
   Future<ToDoItem> getToDo(int id) async {
     try {
-      final response = await _iToDoRepository.getToDo(id);
+      final response = await _toDoRepository.getToDo(id);
       final result = _mapToDoItem(response);
       return result;
     } on Failure catch (_) {
@@ -49,7 +49,7 @@ class ToDoService implements IToDoService {
   @override
   Future<ToDoModel> getToDoList(Map<String, dynamic> queries) async {
     try {
-      final response = await _iToDoRepository.getToDoList(queries);
+      final response = await _toDoRepository.getToDoList(queries);
       final result = _mapToDoModel(response);
 
       return result;
@@ -61,7 +61,7 @@ class ToDoService implements IToDoService {
   @override
   Future<ToDoModel> getToDos(int userId) async {
     try {
-      final response = await _iToDoRepository.getToDos(userId);
+      final response = await _toDoRepository.getToDos(userId);
       final result = _mapToDoModel(response);
 
       return result;
@@ -73,7 +73,7 @@ class ToDoService implements IToDoService {
   @override
   Future<ToDoItem> updateToDo(Map<String, dynamic> queries) async {
     try {
-      final response = await _iToDoRepository.updateToDo(queries);
+      final response = await _toDoRepository.updateToDo(queries);
       final result = _mapToDoItem(response);
       return result;
     } on Failure catch (_) {

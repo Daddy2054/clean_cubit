@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/core/route/route_name.dart';
+import 'package:todo_app/core/service_locator.dart';
 import 'package:todo_app/features/dashboard/presentation/ui/dashboard_screen.dart';
 import 'package:todo_app/features/setting/presentation/ui/setting_screen.dart';
+import 'package:todo_app/features/todo/presentation/controller/todo_add_controller.dart';
 import 'package:todo_app/features/todo/presentation/ui/todo_add_screen.dart';
 import 'package:todo_app/features/todo/presentation/ui/todo_screen.dart';
 
-final GlobalKey<NavigatorState> _rootNavigatorKey =
-    GlobalKey(debugLabel: 'root');
-final GlobalKey<NavigatorState> _shellNavigatorKey =
-    GlobalKey(debugLabel: 'shell');
-
 class GoRouterProvider {
-  //final RouteObserver _shellRouteObserver;
-  //GoRouterProvider(this._shellRouteObserver);
+  final RouteObserver _shellRouteObserver;
+
+  final GlobalKey<NavigatorState> _rootNavigatorKey =
+      GlobalKey(debugLabel: 'root');
+  final GlobalKey<NavigatorState> _shellNavigatorKey =
+      GlobalKey(debugLabel: 'shell');
+  GoRouterProvider(this._shellRouteObserver);
 
   GoRouter goRouter() {
     return GoRouter(
@@ -44,8 +47,11 @@ class GoRouterProvider {
                     path: 'addToDo',
                     name: addToDoRoute,
                     builder: (context, state) {
-                      return toDoAddScreen(
-                        key: state.pageKey,
+                      return BlocProvider(
+                        create: (context) => getIt.get<ToDoAddController>(),
+                        child: ToDoAddScreen(
+                          key: state.pageKey,
+                        ),
                       );
                     },
                   ),
