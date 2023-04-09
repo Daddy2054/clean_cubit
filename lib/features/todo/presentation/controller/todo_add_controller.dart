@@ -4,14 +4,14 @@ import 'package:todo_app/features/todo/application/itodo_service.dart';
 import 'package:todo_app/features/todo/presentation/state/todo_add_state.dart';
 
 class ToDoAddController extends Cubit<ToDoAddState> {
-   final IToDoService _toDoService;
+  final IToDoService _toDoService;
 
-  ToDoAddController(this._toDoService): super(const ToDoAddState());
+  ToDoAddController(this._toDoService) : super(const ToDoAddState());
 
   void addToDo() async {
     try {
       emit(state.copyWith(isLoading: true));
-      setFormData(key: 'user_id', value: '1');
+      setFormData(key: 'user_id', value: '0');
       final result = await _toDoService.addToDo(
         state.formData,
       );
@@ -35,11 +35,15 @@ class ToDoAddController extends Cubit<ToDoAddState> {
     );
   }
 
-  void setFormData({required String key, required dynamic value}) {
-    state.copyWith(formData: {
+ 
+  void setFormData({
+    required String key,
+    required dynamic value,
+  }) {
+    emit(state.copyWith(formData: {
       ...state.formData,
-      ...{key: value}
-    });
+      ...{key: value},
+    }));
   }
 
   void _setIsAdded(bool value) {

@@ -6,7 +6,7 @@ import 'package:todo_app/features/todo/presentation/state/todo_state.dart';
 class ToDoController extends Cubit<ToDoState> {
   final IToDoService _toDoService;
 
-  ToDoController(this._toDoService): super(const ToDoState());
+  ToDoController(this._toDoService) : super(const ToDoState());
 
   void getToDos() async {
     try {
@@ -136,11 +136,14 @@ class ToDoController extends Cubit<ToDoState> {
     );
   }
 
-  void setFormData({required String key, required dynamic value}) {
-    state.copyWith(formData: {
+  void setFormData({
+    required String key,
+    required dynamic value,
+  }) {
+    emit(state.copyWith(formData: {
       ...state.formData,
-      ...{key: value}
-    });
+      ...{key: value},
+    }));
   }
 
   void setScrolling(bool value) {
