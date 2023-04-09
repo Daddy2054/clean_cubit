@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:http/http.dart';
+//import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:todo_app/core/mixin/uri_mixin.dart';
 import 'package:todo_app/features/todo/data/api/itodo_api_service.dart';
@@ -9,7 +9,7 @@ class TodoApiService with UriMixin implements IToDoApiService {
     this.client,
   );
   @override
-  Future<Response> addToDo(Map<String, dynamic> body) async {
+  Future<http.Response> addToDo(Map<String, dynamic> body) async {
     try {
       final url = getUri('/api/v1/todo/addToDo');
 
@@ -20,7 +20,7 @@ class TodoApiService with UriMixin implements IToDoApiService {
   }
 
   @override
-  Future<Response> deleteToDo(Map<String, dynamic> queries) async {
+  Future<http.Response> deleteToDo(Map<String, dynamic> queries) async {
     try {
       final url = getUri('/api/v1/todo/deleteToDo', null, queries);
 
@@ -31,7 +31,7 @@ class TodoApiService with UriMixin implements IToDoApiService {
   }
 
   @override
-  Future<Response> getToDos(int userId) async {
+  Future<http.Response> getToDos(int userId) async {
     try {
       final url = getUri('/api/v1/todo/getToDos/$userId');
 
@@ -44,7 +44,7 @@ class TodoApiService with UriMixin implements IToDoApiService {
   }
 
   @override
-  Future<Response> updateToDo(Map<String, dynamic> queries) async {
+  Future<http.Response> updateToDo(Map<String, dynamic> queries) async {
     try {
       final url = getUri(
         '/api/v1/todo/updateToDo',
@@ -73,7 +73,7 @@ class TodoApiService with UriMixin implements IToDoApiService {
     }
   }
    @override
-  Future<Response> getToDoList(Map<String, dynamic> queries) async {
+  Future<http.Response> getToDoList(Map<String, dynamic> queries) async {
 
     try {
       final url = getUri(
