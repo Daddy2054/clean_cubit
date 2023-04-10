@@ -136,11 +136,20 @@ class _ToDoAddScreenState extends State<ToDoAddScreen>
                     },
                   ),
                   const SizedBox(height: kMedium),
-                  SwitchListTile.adaptive(
-                    title: const Text('Status'),
-                    value: context.watch<ToDoAddController>().state.todoStatus,
-                    onChanged: (value) {
-                      context.read<ToDoAddController>().setToDoStatus(value);
+                  BlocBuilder<ToDoAddController, ToDoAddState>(
+                    buildWhen: (previous, current) {
+                      return current.todoStatus != previous.todoStatus;
+                    },
+                    builder: (context, state) {
+                      return SwitchListTile.adaptive(
+                        title: const Text('Status'),
+                        value: state.todoStatus,
+                        onChanged: (value) {
+                          context
+                              .read<ToDoAddController>()
+                              .setToDoStatus(value);
+                        },
+                      );
                     },
                   ),
                 ],
