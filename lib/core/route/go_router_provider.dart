@@ -7,6 +7,7 @@ import 'package:todo_app/features/dashboard/presentation/ui/dashboard_screen.dar
 import 'package:todo_app/features/setting/presentation/ui/setting_screen.dart';
 import 'package:todo_app/features/todo/presentation/controller/todo_add_controller.dart';
 import 'package:todo_app/features/todo/presentation/ui/todo_add_screen.dart';
+import 'package:todo_app/features/todo/presentation/ui/todo_detail_screen.dart';
 import 'package:todo_app/features/todo/presentation/ui/todo_screen.dart';
 
 class GoRouterProvider {
@@ -52,6 +53,17 @@ class GoRouterProvider {
                         child: ToDoAddScreen(
                           key: state.pageKey,
                         ),
+                      );
+                    },
+                  ),
+                   GoRoute(
+                    path: 'detail/:id',
+                    name: detailToDoRoute,
+                    builder: (context, state) {
+                      final id = int.parse(state.params['id'].toString());
+                      return ToDoDetailScreen(
+                        key: state.pageKey,
+                        id: id,
                       );
                     },
                   ),
