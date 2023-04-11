@@ -26,6 +26,7 @@ class GoRouterProvider {
       routes: [
         ShellRoute(
           navigatorKey: _shellNavigatorKey,
+          observers: [_shellRouteObserver ],
           builder: (context, state, child) {
             return DashboardScreen(
               key: state.pageKey,
@@ -56,7 +57,7 @@ class GoRouterProvider {
                       );
                     },
                   ),
-                   GoRoute(
+                  GoRoute(
                     path: 'detail/:id',
                     name: detailToDoRoute,
                     builder: (context, state) {
