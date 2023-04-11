@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:todo_app/common/mixin/dialog_mixin.dart';
 import 'package:todo_app/common/style/dimens.dart';
 import 'package:todo_app/common/widget/form/custom_text_form_field.dart';
-import 'package:todo_app/features/todo/presentation/controller/todo_add_controller.dart';
 import 'package:todo_app/features/todo/presentation/controller/todo_controller.dart';
-import 'package:todo_app/features/todo/presentation/state/todo_add_state.dart';
 import 'package:todo_app/features/todo/presentation/state/todo_state.dart';
 
 class ToDoDetailScreen extends StatefulWidget {
@@ -15,7 +15,7 @@ class ToDoDetailScreen extends StatefulWidget {
   State<ToDoDetailScreen> createState() => _ToDoDetailScreenState();
 }
 
-class _ToDoDetailScreenState extends State<ToDoDetailScreen> {
+class _ToDoDetailScreenState extends State<ToDoDetailScreen> with DialogMixin {
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _bodyController = TextEditingController();
@@ -46,7 +46,14 @@ class _ToDoDetailScreenState extends State<ToDoDetailScreen> {
       ),
       body: SingleChildScrollView(
         child: BlocConsumer<ToDoController, ToDoState>(
-          listener: (context, state) {},
+          listenWhen: (previous, current) {
+            return current.isUpdated != previous.isUpdated;
+          },
+          listener: (context, state) {
+            if (state.isUpdated) {
+              _showSuccessDialog();
+            }
+          },
           buildWhen: (previous, current) {
             return current.todo.hashCode != previous.todo.hashCode ||
                 current.isReadonly != previous.isReadonly;
@@ -160,13 +167,34 @@ class _ToDoDetailScreenState extends State<ToDoDetailScreen> {
       floatingActionButton: FloatingActionButton.small(
         onPressed: () {
           final isValid = _formKey.currentState?.validate();
-          if (isValid != null && isValid) {}
+          if (isValid != null && isValid) {
+            context.read<ToDoController>().updateToDo();
+          }
         },
         child: const Icon(
           Icons.save,
         ),
         heroTag: 'updateToDo',
       ),
+    );
+  }
+
+  void _showSuccessDialog() {
+    showSuccessDialog(
+      context: context,
+      title: 'Success',
+      msg: 'ToDo Updated Successfully',
+      btnOkText: 'OK',
+      onOkTap: () {
+        context.read<ToDoController>().clearState();
+        final navigator = Navigator.of(context, rootNavigator: true);
+        if (navigator.canPop()) {
+          //pop the dialog
+          navigator.pop();
+          //pop the route
+          context.pop();
+        }
+      },
     );
   }
 }
