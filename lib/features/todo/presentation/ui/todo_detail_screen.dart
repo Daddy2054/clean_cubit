@@ -41,8 +41,22 @@ class _ToDoDetailScreenState extends State<ToDoDetailScreen> with DialogMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Todo'),
+        title: const Text('Todo Detail'),
         centerTitle: true,
+        actions: [
+          BlocBuilder<ToDoController, ToDoState>(
+            builder: (context, state) {
+              return IconButton(
+                onPressed: () {
+                  context.read<ToDoController>().setIsEnabled();
+                },
+                icon: state.isReadonly
+                    ? const Icon(Icons.edit_note)
+                    : const Icon(Icons.edit_outlined),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: BlocConsumer<ToDoController, ToDoState>(
@@ -141,7 +155,8 @@ class _ToDoDetailScreenState extends State<ToDoDetailScreen> with DialogMixin {
                     const SizedBox(height: kMedium),
                     BlocBuilder<ToDoController, ToDoState>(
                       buildWhen: (previous, current) {
-                        return current.todoStatus != previous.todoStatus;
+                        return current.todoStatus != previous.todoStatus ||
+                            current.isReadonly != previous.isReadonly;
                       },
                       builder: (context, state) {
                         return SwitchListTile.adaptive(
