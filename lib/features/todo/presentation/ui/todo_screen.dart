@@ -42,13 +42,17 @@ class _ToDoScreenState extends State<ToDoScreen>
       ),
       body: BlocListener<ToDoController, ToDoState>(
         listenWhen: (previous, current) {
-          return current.isLoading != previous.isLoading;
+          return current.isLoading != previous.isLoading ||
+              current.isDeleted != previous.isDeleted;
         },
         listener: (context, state) {
           _overlayEntry?.remove();
           _overlayEntry = null;
           if (state.isLoading) {
             _overlayEntry = showLoadingOverlay(context, _overlayEntry);
+          }
+          if (state.isDeleted) {
+            _showSnackBar();
           }
         },
         child: BlocSelector<ToDoController, ToDoState, List<ToDoItem>>(
@@ -74,7 +78,8 @@ class _ToDoScreenState extends State<ToDoScreen>
                       ),
                     ),
                   ),
-                  confirmDismiss: (direction) => _confirmDismiss(direction, todo.id, todo.userId),
+                  confirmDismiss: (direction) =>
+                      _confirmDismiss(direction, todo.id, todo.userId),
                   child: GestureDetector(
                     onTap: () {
                       context.push('/detail/${todo.id}');
@@ -133,8 +138,8 @@ class _ToDoScreenState extends State<ToDoScreen>
     );
   }
 
-
-  Future<bool?> _confirmDismiss(DismissDirection direction, int id, int userId) async {
+  Future<bool?> _confirmDismiss(
+      DismissDirection direction, int id, int userId) async {
     return await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -152,7 +157,7 @@ class _ToDoScreenState extends State<ToDoScreen>
               child: const Text("Delete"),
             ),
             TextButton(
-              onPressed: () {                
+              onPressed: () {
                 Navigator.of(context).pop();
               },
               child: const Text("Cancel"),
@@ -161,9 +166,16 @@ class _ToDoScreenState extends State<ToDoScreen>
         );
       },
     );
-
   }
 
+  void _showSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('ToDo deleted successfully',)
+      ),
+    );
+  }
+  
   @override
   void didPopNext() {
     context.read<ToDoController>().refetchToDos();
