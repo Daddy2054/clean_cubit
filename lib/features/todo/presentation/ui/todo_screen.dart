@@ -18,12 +18,28 @@ class ToDoScreen extends StatefulWidget {
 class _ToDoScreenState extends State<ToDoScreen>
     with LoadingOverlayMixin, RouteAware {
   OverlayEntry? _overlayEntry;
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<ToDoController>().getToDos();
+      context.read<ToDoController>().getToDoList();
       getIt.get<RouteObserver>().subscribe(this, ModalRoute.of(context)!);
+    });
+
+    _scrollController.addListener(() {
+      final maxScrollExtent = _scrollController.position.maxScrollExtent;
+
+      if (_scrollController.position.pixels >= maxScrollExtent) {
+        final currentPage = context.read<ToDoController>().state.currentPage;
+        final lastPage = context.read<ToDoController>().state.lastPage;
+
+        if (currentPage < lastPage) {
+          context.read<ToDoController>().setScrolling(true);
+          context.read<ToDoController>().getToDoList();
+        }
+      }
     });
   }
 
@@ -61,6 +77,7 @@ class _ToDoScreenState extends State<ToDoScreen>
           },
           builder: (context, state) {
             return ListView.builder(
+              controller: _scrollController,
               itemCount: state.length,
               itemBuilder: (context, index) {
                 final todo = state[index];
@@ -171,11 +188,12 @@ class _ToDoScreenState extends State<ToDoScreen>
   void _showSnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('ToDo deleted successfully',)
-      ),
+          content: Text(
+        'ToDo deleted successfully',
+      )),
     );
   }
-  
+
   @override
   void didPopNext() {
     context.read<ToDoController>().refetchToDos();
