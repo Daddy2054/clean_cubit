@@ -21,7 +21,7 @@ class SignUpResponse with _$SignUpResponse {
         required final DateTime updatedAt,
         @JsonKey(name: 'created_at')
         required final DateTime createdAt,
-        required final int? id,
+        required final int id,
     }) = _SignUpResponse;
 
     factory SignUpResponse.fromJson(Map<String, dynamic> json) => _$SignUpResponseFromJson(json);
