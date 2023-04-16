@@ -37,9 +37,9 @@ class SignUpController extends Cubit<SignUpState> {
     ));
   }
 
-  void isObscure(bool value) {
+  void isObscure() {
     emit(state.copyWith(
-      isObscure: value,
+      isObscure: !state.isObscure,
     ));
   }
 

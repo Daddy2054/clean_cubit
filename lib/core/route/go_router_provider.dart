@@ -24,24 +24,23 @@ class GoRouterProvider {
   GoRouter goRouter() {
     return GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: '/',
+      initialLocation: '/signUp',
       routes: [
-                          GoRoute(
-                    path: 'signUp',
-                    name: signUpRoute,
-                    builder: (context, state) {
-                      return BlocProvider(
-                        create: (context) => getIt.get<SignUpController>(),
-                        child: SignUpScreen(
-                          key: state.pageKey,
-                        ),
-                      );
-                    },
-                  ),
-
+        GoRoute(
+          path: '/signUp',
+          name: signUpRoute,
+          builder: (context, state) {
+            return BlocProvider(
+              create: (context) => getIt.get<SignUpController>(),
+              child: SignUpScreen(
+                key: state.pageKey,
+              ),
+            );
+          },
+        ),
         ShellRoute(
           navigatorKey: _shellNavigatorKey,
-          observers: [_shellRouteObserver ],
+          observers: [_shellRouteObserver],
           builder: (context, state, child) {
             return DashboardScreen(
               key: state.pageKey,
