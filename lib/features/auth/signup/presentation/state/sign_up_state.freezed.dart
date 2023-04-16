@@ -162,7 +162,7 @@ class _$_SignUpState implements _SignUpState {
   const _$_SignUpState(
       {this.isSignUp = false,
       this.isLoading = false,
-      this.isObscure = false,
+      this.isObscure = true,
       this.isTermsAndConditions = false,
       final Map<String, dynamic> formData = const {},
       this.errorMsg})
