@@ -4,14 +4,16 @@ import 'package:todo_app/common/widget/form/custom_text_form_field.dart';
 import 'package:todo_app/features/auth/signup/presentation/controller/sign_up_controller.dart';
 
 class SignUpPasswordWidget extends StatelessWidget {
-  final String  labelText;
+  final String labelText;
   final String hintText;
   final String validatorText;
+  final String formKey;
 
   const SignUpPasswordWidget({
     required this.labelText,
     required this.hintText,
     required this.validatorText,
+    required this.formKey,
     super.key,
     required TextEditingController passwordController,
   }) : _passwordController = passwordController;
@@ -45,7 +47,7 @@ class SignUpPasswordWidget extends StatelessWidget {
       },
       onChanged: (value) {
         context.read<SignUpController>().setFormData(
-              key: 'password',
+              key: formKey,
               value: value,
             );
         return null;
