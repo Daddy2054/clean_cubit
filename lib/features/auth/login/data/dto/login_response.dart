@@ -16,10 +16,8 @@ String loginResponseToJson(LoginResponse data) => json.encode(data.toJson());
 @freezed
 class LoginResponse with _$LoginResponse {
   const factory LoginResponse({
-    @JsonKey(name: 'access_token')
-    required String accessToken,
-    @JsonKey(name: 'user_id')
-    required int userId,
+    @JsonKey(name: 'access_token') required String accessToken,
+    @JsonKey(name: 'user_id') required int userId,
     required String name,
     required String email,
   }) = _LoginResponse;
