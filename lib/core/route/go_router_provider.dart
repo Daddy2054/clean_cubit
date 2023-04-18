@@ -41,7 +41,7 @@ class GoRouterProvider {
             },
             routes: [
               GoRoute(
-                path: '/signUp',
+                path: 'signUp',
                 name: signUpRoute,
                 builder: (context, state) {
                   return BlocProvider(
