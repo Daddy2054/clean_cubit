@@ -18,6 +18,7 @@ import 'package:todo_app/features/auth/signup/data/repository/isign_up_repositor
 import 'package:todo_app/features/auth/signup/data/repository/sign_up_repository.dart';
 import 'package:todo_app/features/auth/signup/presentation/controller/sign_up_controller.dart';
 import 'package:todo_app/features/auth/signup/presentation/state/sign_up_state.dart';
+import 'package:todo_app/features/setting/presentation/controller/setting_controller.dart';
 import 'package:todo_app/features/todo/application/itodo_service.dart';
 import 'package:todo_app/features/todo/application/todo_service.dart';
 import 'package:todo_app/features/todo/data/api/itodo_api_service.dart';
@@ -74,4 +75,8 @@ void serviceLocatorInit() {
   getIt.registerFactory<LoginController>(() => LoginController(
         getIt.get<ILoginService>(),
       ));
+
+  //Feature setting
+
+  getIt.registerFactory<SettingController>(() => SettingController());
 }
